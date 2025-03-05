@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include head.html %}
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/post.css">
+    <style>
+        body { font-family: 'Roboto', sans-serif; }
+        .screenshot { cursor: pointer; }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.9); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 700px; }
+        .close { position: absolute; top: 15px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; transition: 0.3s; }
+        .close:hover, .close:focus { color: #bbb; text-decoration: none; cursor: pointer; }
+        .prev, .next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -50px; color: white; font-weight: bold; font-size: 20px; transition: 0.6s ease; border-radius: 0 3px 3px 0; user-select: none; }
+        .next { right: 0; border-radius: 3px 0 0 3px; }
+        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 p-4">
+    <div class="max-w-screen-sm mx-auto">
+        <header class="flex justify-between items-center p-4">
+        <div class="text-lg font-mono text-gray-300 typing-effect">
+            <bold class="font-extrabold">></bold> <a class="font-extrabold" href="https://oj.hn/">oj.hn</a>
+        </div>
+        <nav class="flex space-x-4">
+            <a href="#" id="themeToggle" class="text-gray-300 hover:text-gray-100"><i class="fas fa-adjust"></i></a>
+        </nav>
+    </header>
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
+        <main class="mt-6">
+            <h1 class="text-3xl font-bold text-gray-100 mb-4">{{ page.title }}</h1>
+            <section class="border border-gray-800 p-4 mb-6">
+                <h2 class="text-lg font-bold mb-2 text-gray-100">Sections</h2>
+                <ul class="list-none pl-0">
+                    {% for section in page.sections %}
+                        <li><a class="text-gray-300 hover:text-gray-100 hover:underline" href="#{{ section.id }}">{{ section.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {{ content }}
+        </main>
+    </div>
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <script>
+        let modal = document.getElementById("myModal");
+        let modalImg = document.getElementById("img01");
+        let images = document.querySelectorAll(".screenshot");
+        let currentIndex = 0;
+
+        images.forEach((img, index) => {
+            img.onclick = function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                currentIndex = index;
+            }
+        });
+
+        let span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        function changeSlide(direction) {
+            currentIndex += direction;
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = images.length - 1;
+            }
+            modalImg.src = images[currentIndex].src;
+        }
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const body = document.body;
+            const isDark = body.classList.contains('bg-gray-900');
+            if (isDark) {
+                body.classList.remove('bg-gray-900', 'text-gray-300');
+                body.classList.add('bg-gray-100', 'text-gray-900');
+                document.querySelectorAll('.bg-gray-800').forEach(el => {
+                    el.classList.remove('bg-gray-800');
+                    el.classList.add('bg-white');
+                });
+                document.querySelectorAll('.text-gray-100').forEach(el => {
+                    el.classList.remove('text-gray-100');
+                    el.classList.add('text-gray-900');
+                });
+                document.querySelectorAll('.text-gray-300').forEach(el => {
+                    el.classList.remove('.text-gray-300');
+                    el.classList.add('.text-gray-900');
+                });
+                document.querySelectorAll('.text-gray-400').forEach(el => {
+                    el.classList.remove('text-gray-400');
+                    el.classList.add('text-gray-600');
+                });
+                document.querySelectorAll('.hover\\:text-gray-100').forEach(el => {
+                    el.classList.remove('hover:text-gray-100');
+                    el.classList.add('hover:text-gray-900');
+                });
+            } else {
+                body.classList.remove('bg-gray-100', 'text-gray-900');
+                body.classList.add('bg-gray-900', 'text-gray-300');
+                document.querySelectorAll('.bg-white').forEach(el => {
+                    el.classList.remove('bg-white');
+                    el.classList.add('bg-gray-800');
+                });
+                document.querySelectorAll('.text-gray-900').forEach(el => {
+                    el.classList.remove('text-gray-900');
+                    el.classList.add('text-gray-100');
+                });
+                document.querySelectorAll('.text-gray-600').forEach(el => {
+                    el.classList.remove('text-gray-600');
+                    el.classList.add('text-gray-400');
+                });
+                document.querySelectorAll('.hover\\:text-gray-900').forEach(el => {
+                    el.classList.remove('hover:text-gray-900');
+                    el.classList.add('hover:text-gray-100');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

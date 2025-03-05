@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include head.html %}
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
+</head>
+<body class="bg-gray-900 text-gray-300">
+    {{ content }}
+    <script>
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const body = document.body;
+            const isDark = body.classList.contains('bg-gray-900');
+            if (isDark) {
+                body.classList.remove('bg-gray-900', 'text-gray-300');
+                body.classList.add('bg-gray-100', 'text-gray-900');
+            } else {
+                body.classList.remove('bg-gray-100', 'text-gray-900');
+                body.classList.add('bg-gray-900', 'text-gray-300');
+            }
+        });
+    </script>
+</body>
+</html>

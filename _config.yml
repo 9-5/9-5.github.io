@@ -1,0 +1,46 @@
+# _config.yml
+
+title: "oj.hn"
+description: "Where the unthought-of becomes reality. Personal site for John Le, software engineer and tech enthusiast."
+url: "https://oj.hn" # Your site's URL
+baseurl: "" # The subpath of your site, if any (e.g., /blog)
+keywords: "John Le, software engineer, tech, projects, programming, development, software development"
+
+gems: [jekyll-paginate, kramdown]
+markdown: kramdown
+permalink: /:title/
+
+# Author information
+author:
+  name: "John Le"
+  email: "john@johnle.org"
+
+# Social media links
+social:
+  github: "9-5"
+  linkedin: "johnle"
+  email: "john@johnle.org"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude files and directories from the build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+  - package.json
+  - package-lock.json
+
+# Include additional settings
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      excerpt_separator: "<!--more-->"
+      image: "default-post-image.jpg"
